@@ -10,10 +10,10 @@ index_end = 29           # if you have 100 stars, for instance, then index_end s
 sample = "TOIs"          # if one wants to run different samples individually: "TOIs", "Seismic", "APOGEE", "GALAH", "RAVE"
 
 ####################################################################################################################################### 
+gaia_user_name = "jyu01"                                                # Gaia user name.
+gaia_user_password = "Yping:126:"                                       # Gaia user password
 file_target_list = "../Data/Input_Fits/"+sample+"/UserInputData.csv"    # taret list
-gaia_user_table_filename = "user_jy01.sedex"                            #  user table filename name shown on Gaia archive. 
 Xpath = "../Data/Input_Fits/"+sample+"/CrossMatchTables/"               # to save crossmatch tables fetched from the Gaia Archive
-
 
 
 ####################################################################################################################################### 

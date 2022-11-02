@@ -30,17 +30,17 @@ Lskymapper=True
 ########################################################################################################################################################
 # (1) Input stellar parameters, namely Teff, logg, and [Fe/H] and their uncertainties.
 upload_filename  = file_target_list
-user_filename = gaia_user_table_filename
+user_filename = "SEDEX"
 
 # (1.1) Gaia photometry.
 if LgaiaPhot:   
     # download Gaia photometry. 
     out_filename = Xpath+"Photometry_GAIA_DR3.csv"   
     query = ("SELECT targets.starID, gaia.* \
-    FROM {:s} AS targets \
+    FROM user_{:s}.{:s} AS targets \
     INNER JOIN gaiadr3.gaia_source AS gaia \
-    ON gaia.source_id = targets.starID".format(user_filename))
-    phomKit.access_crossmatch_from_Gaia(query, upload_filename=upload_filename, user_filename=user_filename, format="csv", out_filename=out_filename) 
+    ON gaia.source_id = targets.starID".format(gaia_user_name, user_filename))
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, upload_filename=upload_filename, user_filename=user_filename, format="csv", out_filename=out_filename) 
     # calculate magnitude errors in the G, Bp, Rp bands
     result = pd.read_csv(out_filename, dtype={"starid":str, "source_id":str})
     gflux = result.loc[:, "phot_g_mean_flux"]
@@ -63,10 +63,10 @@ if LgaiaPhot:
 if Lgaiaedr3Distance:
     out_filename = Xpath+"Distance_GAIA_DR3.csv"   
     query = ("SELECT targets.starID, dist.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN external.gaiaedr3_distance AS dist \
-            ON dist.source_id = targets.starid ".format(user_filename))
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename) 
+            ON dist.source_id = targets.starid ".format(gaia_user_name, user_filename))
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename) 
     # refine distance.
     dist = pd.read_csv(Xpath+"Distance_GAIA_DR3.csv", dtype={"starid":str, "source_id":str})
     dist.loc[:, "r_phogeo"] = dist.r_med_photogeo.copy()
@@ -85,93 +85,93 @@ if Lgaiaedr3Distance:
 if Lapass:
     out_filename = Xpath+"Photometry_APASS_DR9.csv"   
     query = ("SELECT targets.starID, apass.*, catalog.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN gaiadr3.apassdr9_best_neighbour AS apass \
             ON apass.source_id = targets.starID \
             INNER JOIN external.apassdr9 AS catalog \
-            ON catalog.recno=apass.original_ext_source_id ".format(user_filename))   
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+            ON catalog.recno=apass.original_ext_source_id ".format(gaia_user_name, user_filename))   
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename)
 
 # (1.4) access SDSS crossmatch from Gaia archive.
 if Lsdss:
     out_filename = Xpath+"Photometry_SDSS_DR13.csv" 
     query = ("SELECT targets.starID, sdss.*, catalog.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN gaiadr3.sdssdr13_best_neighbour AS sdss \
             ON sdss.source_id = targets.starID \
             INNER JOIN external.sdssdr13_photoprimary AS catalog \
-            ON catalog.objid=sdss.original_ext_source_id ".format(user_filename))   
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+            ON catalog.objid=sdss.original_ext_source_id ".format(gaia_user_name, user_filename))   
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename)
             
 # (1.5) access Hipparcos crossmatch from Gaia archive.
 if Lhipparcos:
     out_filename = Xpath+"Photometry_Hipparcos2.csv"     
     query = ("SELECT targets.starID, hp.*, catalog.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN gaiadr3.hipparcos2_best_neighbour AS hp \
             ON hp.source_id = targets.starID \
             INNER JOIN public.hipparcos_newreduction AS catalog \
-            ON catalog.hip=hp.original_ext_source_id ".format(user_filename))   
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+            ON catalog.hip=hp.original_ext_source_id ".format(gaia_user_name, user_filename))   
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename)
 
 # (1.6) access Tycho2 crossmatch from Gaia archive.
 if Ltycho2:
     out_filename = Xpath+"Photometry_TYCHO2.csv"     
     query = ("SELECT targets.starID, tycho2.*, catalog.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN gaiadr3.tycho2tdsc_merge_best_neighbour AS tycho2 \
             ON tycho2.source_id = targets.starID \
             INNER JOIN public.tycho2 AS catalog \
-            ON catalog.id=tycho2.original_ext_source_id ".format(user_filename))   
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+            ON catalog.id=tycho2.original_ext_source_id ".format(gaia_user_name, user_filename))   
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename)
 
 ##########################################################################################################
 # (1.7) access PAN-STARRS DR1 crossmatch from Gaia archive.
 if Lps1:
     out_filename = Xpath+"Photometry_PS1.csv"     
     query = ("SELECT targets.starID, ps1.*, catalog.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN gaiadr3.panstarrs1_best_neighbour AS ps1 \
             ON ps1.source_id = targets.starID \
             INNER JOIN gaiadr2.panstarrs1_original_valid AS catalog \
-            on catalog.obj_id=ps1.original_ext_source_id".format(user_filename))   
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+            on catalog.obj_id=ps1.original_ext_source_id".format(gaia_user_name, user_filename))   
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename)
 
 ##########################################################################################################
 # (1.8) access 2MASS crossmatch from Gaia archive.
 if L2mass:
     out_filename = Xpath+"Photometry_2MASS.csv"     
     query = ("SELECT targets.starID, twomass.*, catalog.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN gaiadr3.tmass_psc_xsc_best_neighbour AS twomass \
             ON twomass.source_id = targets.starID \
             INNER JOIN gaiadr1.tmass_original_valid as catalog \
-            on catalog.designation=twomass.original_ext_source_id".format(user_filename))   
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+            on catalog.designation=twomass.original_ext_source_id".format(gaia_user_name, user_filename))   
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename)
 
 ##########################################################################################################
 # (1.9) access ALLWISE crossmatch from Gaia archive.
 if Lallwise:
     out_filename = Xpath+"Photometry_ALLWISE.csv"     
     query = ("SELECT targets.starID, allwise.*, catalog.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN gaiadr3.allwise_best_neighbour AS allwise \
             ON allwise.source_id = targets.starID \
             INNER JOIN gaiadr1.allwise_original_valid as catalog \
-            ON catalog.designation=allwise.original_ext_source_id ".format(user_filename))   
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+            ON catalog.designation=allwise.original_ext_source_id ".format(gaia_user_name, user_filename))   
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename)
 
 ##########################################################################################################
 # (1.10) access SKymapper DR2 crossmatch from Gaia archive.
 if Lskymapper:
     out_filename = Xpath+"Photometry_SKYMAPPER_DR2.csv"     
     query = ("SELECT targets.starID, skymapper.*, catalog.* \
-            FROM {:s} AS targets \
+            FROM user_{:s}.{:s} AS targets \
             INNER JOIN gaiadr3.skymapperdr2_best_neighbour AS skymapper \
             ON skymapper.source_id = targets.starID \
             INNER JOIN external.skymapperdr2_master as catalog \
-            ON catalog.object_id=skymapper.original_ext_source_id".format(user_filename))   
-    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+            ON catalog.object_id=skymapper.original_ext_source_id".format(gaia_user_name, user_filename))   
+    phomKit.access_crossmatch_from_Gaia(query, user=gaia_user_name, password=gaia_user_password, user_filename=user_filename, out_filename=out_filename)
 
 
 

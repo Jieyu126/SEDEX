@@ -364,9 +364,7 @@ def ExtLaws(filters, law="F19", Rv=3.1, fA=1.0, Lprint=False):
 
 
 
-
-
-def access_crossmatch_from_Gaia(query, angDist=3, upload_filename="", user_filename="", format="csv", out_filename=""):
+def access_crossmatch_from_Gaia(query, user="", password="", angDist=3, upload_filename="", user_filename="", format="csv", out_filename=""):
     """In the current version of Gaia archive (as of 2021 July), star IDs for databases of Gaia ERD3,
     Tycho2, APASS DR9, SDSS DR13, Skymapper DR2, Pan-starrs DR1, ALLWISE, TWOMASS are available. But the photometry
     is only available from Gaia archive for the first five but not for the last three. In this unvailable case, star IDs
@@ -374,7 +372,7 @@ def access_crossmatch_from_Gaia(query, angDist=3, upload_filename="", user_filen
     astroquery.XMATCH implemented in Python.  
     """
     # login
-    Gaia.login(user='xxx', password='xxx')
+    Gaia.login(user=user, password=password)
     if upload_filename != "": 
         try:
             job = Gaia.delete_user_table(user_filename)
@@ -451,7 +449,7 @@ def clean_Gaia_photometry(in_filename="", out_filename=""):
     gaiaedr3.to_csv(out_filename, index=False, float_format="%.4f")
 
 
-def access_polluters_from_Gaia(query, upload_filename="", user_filename="", format="csv", out_filename=""):
+def access_polluters_from_Gaia(query, user="", password="", upload_filename="", user_filename="", format="csv", out_filename=""):
     """In the current version of Gaia archive (as of 2021 July), star IDs for databases of Gaia ERD3,
         Tycho2, APASS DR9, SDSS DR13, Skymapper DR2, Pan-starrs DR1, ALLWISE, TWOMASS are available. But the photometry
         is only available from Gaia archive for the first five but not for the last three. In this unvailable case, star IDs
@@ -459,7 +457,7 @@ def access_polluters_from_Gaia(query, upload_filename="", user_filename="", form
         astroquery.XMATCH implemented in Python.  
     """
     # login
-    Gaia.login(user='xxx', password='xxx')
+    Gaia.login(user=user, password=password)
     if upload_filename != "": job = Gaia.upload_table(upload_resource=upload_filename, table_name=user_filename, format=format)
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     query = "SELECT targets.starID, gaia.ra, gaia.dec, distance(POINT('ICRS', gaia.ra, gaia.dec),POINT('ICRS', source.ra, source.dec)) AS AngDist, source.*\
@@ -607,7 +605,7 @@ def Gaia_mag_errors(gflux=None, gfluxerr=None, bpflux=None, bpfluxerr=None, rpfl
         rpmagerr = np.sqrt((2.5*rpfluxerr/rpflux/np.log(10))**2 + (0.0037793818)**2)
         return gmagerr, bpmagerr, rpmagerr
 
-def Gaia_XP_RVS_Spectra(query, upload_filename="", user_filename="", format_upload_table="csv", format_download_table="fits", 
+def Gaia_XP_RVS_Spectra(query, user="", password="", upload_filename="", user_filename="", format_upload_table="csv", format_download_table="fits", 
     out_filename="", retrieval_type="", data_structure="", data_release=""):
     """
     Aim: 
@@ -621,7 +619,7 @@ def Gaia_XP_RVS_Spectra(query, upload_filename="", user_filename="", format_uplo
     Reference: 
         https://www.cosmos.esa.int/web/gaia-users/archive/datalink-products
     """
-    Gaia.login(user='xxx', password='xxx')
+    Gaia.login(user=user, password=password)
     if upload_filename != "": 
         try:
             job = Gaia.delete_user_table(user_filename)
