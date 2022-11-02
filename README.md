@@ -6,7 +6,7 @@ is calculated by integrating the best-fitting spectrum, luminosity is derived by
 
 ## Instructions on how to run SEDEX.
 - Create a Gaia account and input your user name and password in the file $\texttt{inlist.py}$. 
-- Download [MARCS](https://marcs.astro.uu.se/) (standard composition) and [BOSZ](https://archive.stsci.edu/hlsp/bosz/search.php) (solar [C/M], resolution $R=20000$, ~87 GB)  spectral libraries.
+- Download [MARCS](https://marcs.astro.uu.se/) (standard composition) and [BOSZ](https://archive.stsci.edu/hlsp/bosz/search.php) (solar [C/M], resolution $R=20000$)  spectral libraries.
 - Prepare a list of targets in the file, $\texttt{Data/Input\\_Fits/TOIs/UserInputData.csv}$, with these columns: starID, teff, tefferr, logg, loggerr, feh, feherr, Av, and Averr. Note that starID has to be Gaia DR3 source_id. Av and Averr can be NaN. The sample name, TOIs, can be optionally changed in the file $\texttt{inlist.py}$.
 - Configure the inlist file, $\texttt{inlist.py}$. Suggest to use default values.
 - Run $\texttt{submit.sh}$, if the single star mode is set, or run $\texttt{submit\\_slurm.sh}$ for HPC, if the batch mode is set.
