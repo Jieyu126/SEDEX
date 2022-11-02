@@ -374,7 +374,7 @@ def access_crossmatch_from_Gaia(query, angDist=3, upload_filename="", user_filen
     astroquery.XMATCH implemented in Python.  
     """
     # login
-    Gaia.login(user='jyu01', password='Yping:126:')
+    Gaia.login(user='xxx', password='xxx')
     if upload_filename != "": 
         try:
             job = Gaia.delete_user_table(user_filename)
@@ -459,7 +459,7 @@ def access_polluters_from_Gaia(query, upload_filename="", user_filename="", form
         astroquery.XMATCH implemented in Python.  
     """
     # login
-    Gaia.login(user='jyu01', password='Yping:126:')
+    Gaia.login(user='xxx', password='xxx')
     if upload_filename != "": job = Gaia.upload_table(upload_resource=upload_filename, table_name=user_filename, format=format)
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     query = "SELECT targets.starID, gaia.ra, gaia.dec, distance(POINT('ICRS', gaia.ra, gaia.dec),POINT('ICRS', source.ra, source.dec)) AS AngDist, source.*\
@@ -621,7 +621,7 @@ def Gaia_XP_RVS_Spectra(query, upload_filename="", user_filename="", format_uplo
     Reference: 
         https://www.cosmos.esa.int/web/gaia-users/archive/datalink-products
     """
-    Gaia.login(user='jyu01', password='Yping:126:')
+    Gaia.login(user='xxx', password='xxx')
     if upload_filename != "": 
         try:
             job = Gaia.delete_user_table(user_filename)
