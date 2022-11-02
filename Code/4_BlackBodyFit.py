@@ -3,7 +3,6 @@ import pandas as pd
 import os
 import numpy as np
 import matplotlib.pyplot as plt  
-import kepler 
 import matplotlib
 from lmfit import Minimizer, Parameters, report_fit
 import time
@@ -275,7 +274,6 @@ for ii in range(index_start, index_end):
     # plot the fitting
     fontsize=16
     fig, ax = plt.subplots(1,1, figsize=(8,6))
-    # kepler.markup(ax, fontsize=fontsize)
     # orginal data
     ax.errorbar(point_lambda_obs_ori.wavelength, point_lambda_obs_ori.flux, \
         xerr=point_lambda_obs_ori.bandwidth/2, yerr=point_lambda_obs_ori.fluxerr, \

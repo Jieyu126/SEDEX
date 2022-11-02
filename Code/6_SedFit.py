@@ -4,7 +4,6 @@ import os
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import kepler 
 from lmfit import Minimizer, Parameters, report_fit
 import time
 import re
@@ -705,6 +704,11 @@ for ii in range(index_start, index_end):
                 # enough to not significantly change the statistics of the distribution.
                 mu = 0
                 sigma = (interp_FitResult_samples.loc[:, col].max()-interp_FitResult_samples.loc[:, col].min())/120 # mean and standard deviation
+                if sigma==0: 
+                    LoffGrid=True
+                    print("ReChi2 of interpolated models too large, thus this star is skipped")
+                    print("=============================== result summary ================================")
+                    break
                 interp_FitResult_samples.loc[:, col] += np.random.normal(mu, sigma, len(interp_FitResult_samples_fit))
                 
                 # calculate histograms.

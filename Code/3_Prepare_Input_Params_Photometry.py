@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np 
-import kepler
 from astroquery.gaia import Gaia
 from dustmaps.bayestar import BayestarQuery
 import astropy.units as units
@@ -41,7 +40,7 @@ if LgaiaPhot:
     FROM user_jyu01.{:s} AS targets \
     INNER JOIN gaiadr3.gaia_source AS gaia \
     ON gaia.source_id = targets.starID".format(user_filename))
-    kepler.access_crossmatch_from_Gaia(query, upload_filename=upload_filename, user_filename=user_filename, format="csv", out_filename=out_filename) 
+    phomKit.access_crossmatch_from_Gaia(query, upload_filename=upload_filename, user_filename=user_filename, format="csv", out_filename=out_filename) 
     # calculate magnitude errors in the G, Bp, Rp bands
     result = pd.read_csv(out_filename, dtype={"starid":str, "source_id":str})
     gflux = result.loc[:, "phot_g_mean_flux"]
@@ -50,7 +49,7 @@ if LgaiaPhot:
     bpfluxerr = result.loc[:, "phot_bp_mean_flux_error"]
     rpflux = result.loc[:, "phot_rp_mean_flux"]
     rpfluxerr = result.loc[:, "phot_rp_mean_flux_error"]
-    gmagerr, bpmagerr, rpmagerr = kepler.Gaia_mag_errors(gflux=gflux, gfluxerr=gfluxerr, bpflux=bpflux, bpfluxerr=bpfluxerr, rpflux=rpflux, rpfluxerr=rpfluxerr)
+    gmagerr, bpmagerr, rpmagerr = phomKit.Gaia_mag_errors(gflux=gflux, gfluxerr=gfluxerr, bpflux=bpflux, bpfluxerr=bpfluxerr, rpflux=rpflux, rpfluxerr=rpfluxerr)
     result.loc[:, "phot_g_mean_mag_error"] = gmagerr
     result.loc[:, "phot_bp_mean_mag_error"] = bpmagerr
     result.loc[:, "phot_rp_mean_mag_error"] = rpmagerr
@@ -67,7 +66,7 @@ if Lgaiaedr3Distance:
             FROM user_jyu01.{:s} AS targets \
             INNER JOIN external.gaiaedr3_distance AS dist \
             ON dist.source_id = targets.starid ".format(user_filename))
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename) 
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename) 
     # refine distance.
     dist = pd.read_csv(Xpath+"Distance_GAIA_DR3.csv", dtype={"starid":str, "source_id":str})
     dist.loc[:, "r_phogeo"] = dist.r_med_photogeo.copy()
@@ -91,7 +90,7 @@ if Lapass:
             ON apass.source_id = targets.starID \
             INNER JOIN external.apassdr9 AS catalog \
             ON catalog.recno=apass.original_ext_source_id ".format(user_filename))   
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
 
 # (1.4) access SDSS crossmatch from Gaia archive.
 if Lsdss:
@@ -102,7 +101,7 @@ if Lsdss:
             ON sdss.source_id = targets.starID \
             INNER JOIN external.sdssdr13_photoprimary AS catalog \
             ON catalog.objid=sdss.original_ext_source_id ".format(user_filename))   
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
             
 # (1.5) access Hipparcos crossmatch from Gaia archive.
 if Lhipparcos:
@@ -113,7 +112,7 @@ if Lhipparcos:
             ON hp.source_id = targets.starID \
             INNER JOIN public.hipparcos_newreduction AS catalog \
             ON catalog.hip=hp.original_ext_source_id ".format(user_filename))   
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
 
 # (1.6) access Tycho2 crossmatch from Gaia archive.
 if Ltycho2:
@@ -124,7 +123,7 @@ if Ltycho2:
             ON tycho2.source_id = targets.starID \
             INNER JOIN public.tycho2 AS catalog \
             ON catalog.id=tycho2.original_ext_source_id ".format(user_filename))   
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
 
 ##########################################################################################################
 # (1.7) access PAN-STARRS DR1 crossmatch from Gaia archive.
@@ -136,7 +135,7 @@ if Lps1:
             ON ps1.source_id = targets.starID \
             INNER JOIN gaiadr2.panstarrs1_original_valid AS catalog \
             on catalog.obj_id=ps1.original_ext_source_id".format(user_filename))   
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
 
 ##########################################################################################################
 # (1.8) access 2MASS crossmatch from Gaia archive.
@@ -148,7 +147,7 @@ if L2mass:
             ON twomass.source_id = targets.starID \
             INNER JOIN gaiadr1.tmass_original_valid as catalog \
             on catalog.designation=twomass.original_ext_source_id".format(user_filename))   
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
 
 ##########################################################################################################
 # (1.9) access ALLWISE crossmatch from Gaia archive.
@@ -160,7 +159,7 @@ if Lallwise:
             ON allwise.source_id = targets.starID \
             INNER JOIN gaiadr1.allwise_original_valid as catalog \
             ON catalog.designation=allwise.original_ext_source_id ".format(user_filename))   
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
 
 ##########################################################################################################
 # (1.10) access SKymapper DR2 crossmatch from Gaia archive.
@@ -172,7 +171,7 @@ if Lskymapper:
             ON skymapper.source_id = targets.starID \
             INNER JOIN external.skymapperdr2_master as catalog \
             ON catalog.object_id=skymapper.original_ext_source_id".format(user_filename))   
-    kepler.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
+    phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename)
 
 
 

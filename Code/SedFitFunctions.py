@@ -3,7 +3,6 @@ import pandas as pd
 import os
 import numpy as np
 import matplotlib.pyplot as plt  
-import kepler 
 import matplotlib
 from lmfit import Minimizer, Parameters, report_fit
 import time

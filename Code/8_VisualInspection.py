@@ -4,20 +4,6 @@ import numpy as np
 from inlist import * 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-import h5py
-
-
-# # to show an image save in a h5 file.
-# # from a h5py file to NumpyArray
-# hf = h5py.File('test.h5', 'r')
-# print(hf.keys())
-
-# # here 8363443 is the name
-# n1 = np.array(hf.get('8363443'))
-# plt.imshow(n1)
-# plt.axis('off')
-# plt.tight_layout()    
-# plt.show()
 
 
 
