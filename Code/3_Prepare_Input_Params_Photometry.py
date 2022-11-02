@@ -30,14 +30,14 @@ Lskymapper=True
 ########################################################################################################################################################
 # (1) Input stellar parameters, namely Teff, logg, and [Fe/H] and their uncertainties.
 upload_filename  = file_target_list
-user_filename = "SEDEX"
+user_filename = gaia_user_table_filename
 
 # (1.1) Gaia photometry.
 if LgaiaPhot:   
     # download Gaia photometry. 
     out_filename = Xpath+"Photometry_GAIA_DR3.csv"   
     query = ("SELECT targets.starID, gaia.* \
-    FROM user_jyu01.{:s} AS targets \
+    FROM {:s} AS targets \
     INNER JOIN gaiadr3.gaia_source AS gaia \
     ON gaia.source_id = targets.starID".format(user_filename))
     phomKit.access_crossmatch_from_Gaia(query, upload_filename=upload_filename, user_filename=user_filename, format="csv", out_filename=out_filename) 
@@ -63,7 +63,7 @@ if LgaiaPhot:
 if Lgaiaedr3Distance:
     out_filename = Xpath+"Distance_GAIA_DR3.csv"   
     query = ("SELECT targets.starID, dist.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN external.gaiaedr3_distance AS dist \
             ON dist.source_id = targets.starid ".format(user_filename))
     phomKit.access_crossmatch_from_Gaia(query, user_filename=user_filename, out_filename=out_filename) 
@@ -85,7 +85,7 @@ if Lgaiaedr3Distance:
 if Lapass:
     out_filename = Xpath+"Photometry_APASS_DR9.csv"   
     query = ("SELECT targets.starID, apass.*, catalog.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN gaiadr3.apassdr9_best_neighbour AS apass \
             ON apass.source_id = targets.starID \
             INNER JOIN external.apassdr9 AS catalog \
@@ -96,7 +96,7 @@ if Lapass:
 if Lsdss:
     out_filename = Xpath+"Photometry_SDSS_DR13.csv" 
     query = ("SELECT targets.starID, sdss.*, catalog.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN gaiadr3.sdssdr13_best_neighbour AS sdss \
             ON sdss.source_id = targets.starID \
             INNER JOIN external.sdssdr13_photoprimary AS catalog \
@@ -107,7 +107,7 @@ if Lsdss:
 if Lhipparcos:
     out_filename = Xpath+"Photometry_Hipparcos2.csv"     
     query = ("SELECT targets.starID, hp.*, catalog.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN gaiadr3.hipparcos2_best_neighbour AS hp \
             ON hp.source_id = targets.starID \
             INNER JOIN public.hipparcos_newreduction AS catalog \
@@ -118,7 +118,7 @@ if Lhipparcos:
 if Ltycho2:
     out_filename = Xpath+"Photometry_TYCHO2.csv"     
     query = ("SELECT targets.starID, tycho2.*, catalog.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN gaiadr3.tycho2tdsc_merge_best_neighbour AS tycho2 \
             ON tycho2.source_id = targets.starID \
             INNER JOIN public.tycho2 AS catalog \
@@ -130,7 +130,7 @@ if Ltycho2:
 if Lps1:
     out_filename = Xpath+"Photometry_PS1.csv"     
     query = ("SELECT targets.starID, ps1.*, catalog.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN gaiadr3.panstarrs1_best_neighbour AS ps1 \
             ON ps1.source_id = targets.starID \
             INNER JOIN gaiadr2.panstarrs1_original_valid AS catalog \
@@ -142,7 +142,7 @@ if Lps1:
 if L2mass:
     out_filename = Xpath+"Photometry_2MASS.csv"     
     query = ("SELECT targets.starID, twomass.*, catalog.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN gaiadr3.tmass_psc_xsc_best_neighbour AS twomass \
             ON twomass.source_id = targets.starID \
             INNER JOIN gaiadr1.tmass_original_valid as catalog \
@@ -154,7 +154,7 @@ if L2mass:
 if Lallwise:
     out_filename = Xpath+"Photometry_ALLWISE.csv"     
     query = ("SELECT targets.starID, allwise.*, catalog.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN gaiadr3.allwise_best_neighbour AS allwise \
             ON allwise.source_id = targets.starID \
             INNER JOIN gaiadr1.allwise_original_valid as catalog \
@@ -166,7 +166,7 @@ if Lallwise:
 if Lskymapper:
     out_filename = Xpath+"Photometry_SKYMAPPER_DR2.csv"     
     query = ("SELECT targets.starID, skymapper.*, catalog.* \
-            FROM user_jyu01.{:s} AS targets \
+            FROM {:s} AS targets \
             INNER JOIN gaiadr3.skymapperdr2_best_neighbour AS skymapper \
             ON skymapper.source_id = targets.starID \
             INNER JOIN external.skymapperdr2_master as catalog \

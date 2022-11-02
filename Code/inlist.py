@@ -11,18 +11,20 @@ sample = "TOIs"          # if one wants to run different samples individually: "
 
 ####################################################################################################################################### 
 file_target_list = "../Data/Input_Fits/"+sample+"/UserInputData.csv"    # taret list
+gaia_user_table_filename = "user_jy01.sedex"                            #  user table filename name shown on Gaia archive. 
 Xpath = "../Data/Input_Fits/"+sample+"/CrossMatchTables/"               # to save crossmatch tables fetched from the Gaia Archive
-bandclip = np.array(["wisew3", "wisew4"])                               # exclude certain bands for fitting
+
 
 
 ####################################################################################################################################### 
 # Select a extinction law
-ExtinctionLaw = "F19"    # CCM89, O94, F99, F04, M14, G16, F19. For more detains see: https://dust-extinction.readthedocs.io/en/stable/index.html
-Rv = 3.1                 # R(V) = A(V)/E(B-V)
-grid = "MARCS"           # MARCS or BOSZ. BOSZ for Teff>8000K.
-LvaryFeh = True          # Use known metallicity rather than assume solar metallicity. Techiniqly, this is [M/H] instead of [Fe/H]
-LFixedAv = False         # use known Av
-LAvprior = False         # use known Av as a prior.
+ExtinctionLaw = "F19"                           # CCM89, O94, F99, F04, M14, G16, F19. For more detains see: https://dust-extinction.readthedocs.io/en/stable/index.html
+Rv = 3.1                                        # R(V) = A(V)/E(B-V)
+grid = "MARCS"                                  # MARCS or BOSZ. BOSZ for Teff>8000K.
+LvaryFeh = True                                 # Use known metallicity rather than assume solar metallicity. Techiniqly, this is [M/H] instead of [Fe/H]
+LFixedAv = False                                # use known Av
+LAvprior = False                                # use known Av as a prior.
+bandclip = np.array(["wisew3", "wisew4"])       # exclude certain bands for fitting
 
 ####################################################################################################################################### 
 # define some paths for saving results from Blackbody fitting and SED fitting.
