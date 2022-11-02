@@ -5,7 +5,7 @@ The output of SEDEX includes bolometric flux, angular radius, extinction, lumino
 is calculated by integrating the best-fitting spectrum, luminosity is derived by combining bolometric flux and distance, radius is computed from luminosity and input $T_{\rm{eff}}$, and angular radius is inferred from radius and distance. More details can be found in [Yu et al. 2022](https://ui.adsabs.harvard.edu/abs/2022arXiv220600046Y/abstract)
 
 ## Instructions on how to run SEDEX.
-- Create a Gaia account and input your user name and password in the terminal. To avoid manually inputing them, you can change the username and password in the routine $\texttt{phomKit.access\\_crossmatch\\_from\\_Gaia}$ at $\texttt{Gaia.login(user='username', password='password')}$.
+- Create a Gaia account and input your user name and password in the file $\texttt{inlist.py}$. 
 - Download [MARCS](https://marcs.astro.uu.se/) (standard composition) and [BOSZ](https://archive.stsci.edu/hlsp/bosz/search.php) (solar [C/M], resolution $R=20000$, ~87 GB)  spectral libraries.
 - Prepare a list of targets in the file, $\texttt{Data/Input\\_Fits/TOIs/UserInputData.csv}$, with these columns: starID, teff, tefferr, logg, loggerr, feh, feherr, Av, and Averr. Note that starID has to be Gaia DR3 source_id. Av and Averr can be NaN. The sample name, TOIs, can be optionally changed in the file $\texttt{inlist.py}$.
 - Configure the inlist file, inlist.py. Suggest to use default values.
